@@ -144,6 +144,18 @@ class EloquentBuilder {
         return this;
     }
 
+
+    /**
+     * 
+     * @param {Number} page 
+     * @param {Number} perPage 
+     * @returns 
+     */
+     forPage(page, perPage = 15)
+     {
+         return this.offset((page - 1) * perPage).limit(perPage);
+     }
+
     select(columns = ['*']) {
         for (const columns of column) {
             this.selectColumns.push(column);

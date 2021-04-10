@@ -1,8 +1,15 @@
-class test2 {
-    static arr = [];
-    static add(data) {
-        this.arr.push(data)
-    }
-}
+import express from 'express';
+const app = express()
 
-export default test2;
+app.get('/:browser', (req, res) => {
+    const browser = req.params.browser;
+
+    console.log(`begin ${browser}`);
+    for (let i = 0; i < 99999999; i++) {
+        const x = i * 654 * Math.random();
+    }
+    console.log(`end ${browser}`);
+    res.end(`end ${browser}`)
+})
+
+app.listen(3000)
