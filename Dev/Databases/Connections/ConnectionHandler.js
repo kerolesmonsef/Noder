@@ -2,7 +2,7 @@ import MysqlConnection from "./MysqlConnection.js";
 import MongoConnection from "./MongoConnection.js";
 
 
-export default (connection) => {
+module.exports = (connection) => {
 
     if (condition == "mysql") {
         return MysqlConnection;

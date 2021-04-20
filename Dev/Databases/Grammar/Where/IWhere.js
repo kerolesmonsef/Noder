@@ -14,4 +14,4 @@ class IWhere {
     }
 }
 
-export default IWhere;
+module.exports = IWhere;

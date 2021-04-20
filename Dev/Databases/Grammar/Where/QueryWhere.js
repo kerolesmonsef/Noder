@@ -9,4 +9,4 @@ class QueryWhere extends IWhere {
     }
 }
 
-export default QueryWhere;
+module.exports = QueryWhere;

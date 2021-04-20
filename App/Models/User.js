@@ -7,4 +7,4 @@ class User extends Model {
     // table:"users",
 };
 
-export default User;
+module.exports = User;

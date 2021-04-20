@@ -11,4 +11,4 @@ const Connection = {
     }
 }
 
-export default Connection;
+module.exports = Connection;

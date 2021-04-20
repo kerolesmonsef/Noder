@@ -16,4 +16,4 @@ class BaseWhere extends IWhere{
         return "shit where base"
     }
 }
-export default BaseWhere;
+module.exports = BaseWhere;

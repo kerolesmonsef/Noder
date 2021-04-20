@@ -20,6 +20,6 @@ const O_extendMethod = function () {
 };
 
 
-export default O_extendMethod;
+module.exports = O_extendMethod;
 
 // Object.prototype.o_extends = extend;

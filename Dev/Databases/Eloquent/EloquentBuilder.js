@@ -164,4 +164,4 @@ class EloquentBuilder {
     }
 }
 
-export default EloquentBuilder;
+module.exports = EloquentBuilder;

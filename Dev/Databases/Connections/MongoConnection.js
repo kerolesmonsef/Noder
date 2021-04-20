@@ -4,4 +4,4 @@ const MongoConnection = Connection.o_extends({
 
 })
 
-export default MongoConnection;
+module.exports = MongoConnection;

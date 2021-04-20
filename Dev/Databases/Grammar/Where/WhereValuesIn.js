@@ -21,4 +21,4 @@ class WhereValuesIn extends IWhere {
     }
 }
 
-export default WhereValuesIn;
+module.exports = WhereValuesIn;

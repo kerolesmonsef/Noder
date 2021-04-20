@@ -113,4 +113,4 @@ class Str {
     }
 }
 
-export default Str;
+module.exports = Str;

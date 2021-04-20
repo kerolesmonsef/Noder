@@ -7,4 +7,4 @@ const MysqlConnection = Connection.o_extends({
 
 })
 
-export default MysqlConnection;
+module.exports = MysqlConnection;
