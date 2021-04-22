@@ -4,7 +4,7 @@ const RouterCollection = require('./RouterCollection');
 /**
  * all routes is hidden in 
  * 1- route collection this.routes
- * 2-resources
+ * 2- resources
  */
 class Router {
 
@@ -12,7 +12,7 @@ class Router {
     routeCollection = null;
     resources = [];
     prefix = "";
-    middlewares = [];
+    middlewares = new Set();
     as = "";
 
     constructor() {
@@ -68,14 +68,25 @@ class Router {
 
         if (options instanceof Function) {
             theCallback = options;
-        } else {
+        } else if (callback instanceof Function) {
             theOptions = options;
             theCallback = callback;
+        } else {
+            throw new Error("the group must have a callback method");
         }
         // don't forget current middleware and prefix and name
         /** @type {this} */
         const router = new this.constructor();
+
+
+        router.addAction({
+            middleware: [...(Array.isArray(theOptions.middleware) ? theOptions.middleware : theOptions.middleware ? [theOptions.middleware] : []), ...this.middlewares],
+            as: `${this.as}${theOptions.as || ''}`,
+            prefix: `${this.prefix}${theOptions.prefix || ''}`,
+        });
+
         theCallback(router);
+
         this.routeCollection.merge(router.collectRoutes());
     }
     /**
@@ -91,7 +102,7 @@ class Router {
      * you should use this method only once to avoid duplication
      * @returns 
      */
-    copyRoutesFromResource(emptyResource = false) {
+    copyRoutesFromResource(emptyResource = true) {
         this.resources.forEach(resource => resource.pushMethodsToRouter());
         if (emptyResource) this.resources = []
         return this;
@@ -104,10 +115,10 @@ class Router {
      */
     addAction(options = {}) {
         if (options['middleware']) {
-            this.middlewares = [...this.middlewares, ...Array.from(options['middleware'])]
+            this.middlewares = new Set(Array.from(options['middleware']));
         }
         if (options['prefix']) {
-            this.prefix = options['prefix'] + this.prefix;
+            this.prefix = options['prefix'];
         }
         if (options['as']) {
             this.as = options['as']
