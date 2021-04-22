@@ -1,10 +1,18 @@
 const Router = require("../Dev/Router/Router");
 const UserController = require("../App/Http/Controllers/UserController");
+const ResourceRoute = require("../Dev/Router/ResourceRoute");
 
-const route = new Router();
+const router = new Router();
 
-const shit = route.get("/user/:user", [UserController, 'show']).middleware("mama").name("kero");
+router.get("/user/:user", [UserController, 'show']).middleware("mama").name("kero");
+// router.resource('user', 'UserController');
+router.group((r) => {
+    r.get('/person',"UserController@person").name("person.index")
+    r.resource("shit","ShitController");
+});
 
-console.log(route.routes);
+console.log(router.routeCollection)
 
-module.exports = route;
+module.exports = router;
+
+
