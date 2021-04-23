@@ -5,7 +5,8 @@ class UserController {
     }
 
     show(req, res, user) {
-
+        console.log(require.main.require('./routes/web'))
+        res.send(user);
     }
 
     edit(user) {

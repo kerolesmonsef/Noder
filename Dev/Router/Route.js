@@ -1,5 +1,7 @@
 const Router = require("./Router");
 
+const throwError = message => { throw new Error(message) }
+
 class Route {
     routeName = null;
     automaticInjections = {}
@@ -12,8 +14,8 @@ class Route {
      * @param {String} action 
      * @param {Router} router 
      */
-    constructor(methods, uri, action, router = null) {
-        this.methods = Array.isArray(methods) ? methods : [methods];
+    constructor(method, uri, action, router = null) {
+        this.method = method;
         this.uri = uri;
         this.action = action;
         this.router = router;
@@ -74,29 +76,21 @@ class Route {
     }
 
     getActionMethod() {
+        const throwException = (message) => { throw new Error(message) }
         if (this.action instanceof Function)
             return this.action;
 
         if (typeof this.action === "string") {
             const controllerMethod = this.action.split("@");
             if (controllerMethod.length != 2) {
-                throw new Error(`the Controller And Method should be like "Controller@method" `)
+                throwError(`the Controller And Method should be like "Controller@method" `);
             }
             const [controller, method] = controllerMethod;
             const controllerClass = require(`../../App/Http/Controllers/${controller}`);
-            return new controllerClass()[method] 
+            return new controllerClass()[method] || throwException(`The Method :"${method}" Is Not Found in Controller : "${controller}"`)
         }
 
-        if (Array.isArray(this.action) && this.action.length == 2) {
-            const [controller, method] = this.action;
-            if (typeof controller === "function")
-                return new controller()[method]
-            else if(typeof controller === "string"){
-                const controllerClass = require(`../../App/Http/Controllers/${controller}`);
-                return new controllerClass()[method]
-            }
-        }
-
+        
         throw new Error("action must be string or array side 2 like laravel");
     }
 }

@@ -4,19 +4,19 @@ const ResourceRoute = require("../Dev/Router/ResourceRoute");
 
 const router = new Router();
 
-router.get("/user/:user", [UserController, 'show']).middleware("mama").name("kero");
+router.get("/user/:user/:aa", "UserController@show").middleware("mama").name("kero");
 // router.resource('user', 'UserController');
 
 
 router.group({ middleware: ['admin'] }, (r) => {
-    r.get('/admin', "AdminController@person").name("admin.index")
+    r.get('/admin', "UserController@index").name("admin.index")
     r.group({ middleware: 'superAdmin', as: 'shit.', prefix: "user/" }, (rr) => {
         // rr.get("super_admin", "SuperAdminController@index").name("super_admin.index").middleware("kaka");
-        rr.resource('user', 'UserController')
+        // rr.resource('user', 'UserController')
     });
 });
 
-console.log(router.routeCollection.routes[0])
+// console.log(router.routeCollection.routes[1].getActionMethod())
 
 module.exports = router;
 

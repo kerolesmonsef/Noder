@@ -19,12 +19,6 @@ class Router {
         this.routeCollection = new RouterCollection();
     }
 
-    /**
-     * 
-     * @param {String} uri 
-     * @param {CallableFunction} action 
-     * @returns {Route}
-     */
     get(uri, action) {
         return this.addRoute('get', uri, action);
     }
@@ -33,18 +27,22 @@ class Router {
         return this.addRoute('post', uri, action);
     }
 
+    put(uri, action) {
+        return this.addRoute('put', uri, action);
+    }
+
     delete(uri, action) {
         return this.addRoute('delete', uri, action);
     }
     /**
      * 
-     * @param {String|Array} methods 
+     * @param {String} method 
      * @param {String} uri 
      * @param {CallableFunction|Array|String} action 
      * @returns {Route}
      */
-    addRoute(methods, uri, action) {
-        return this.routeCollection.add(this.createRoute(methods, uri, action));
+    addRoute(method, uri, action) {
+        return this.routeCollection.add(this.createRoute(method, uri, action));
     }
 
     middleware(middlewares) {
@@ -52,8 +50,8 @@ class Router {
         return this;
     }
 
-    createRoute(methods, uri, action) {
-        return new Route(methods, uri, action, this);
+    createRoute(method, uri, action) {
+        return new Route(method, uri, action, this);
     }
 
     resource(name, controller) {

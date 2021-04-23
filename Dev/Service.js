@@ -15,6 +15,7 @@ class Service {
      * @param {Array<Router>} routers 
      */
     constructor(routers = []) {
+        routers = Array.isArray(routers) ? routers : Array.from(arguments);
         this.addRouter(routers);
     }
 
@@ -33,6 +34,12 @@ class Service {
         return this;
     }
 
+
+    port(port) {
+        this.runningPort = port;
+        return this;
+    }
+
     /**
      * 
      * @returns {RouterCollection}
@@ -45,15 +52,26 @@ class Service {
         return routeCollection;
     }
 
-    appendRoutersToExpress(express) {
+
+    appendRoutersToExpress(expressApp) {
         const routerCollection = this.collectRoutes();
         routerCollection.each((route) => {
-            
+            const methodAction = route.getActionMethod();
+
+            if (!methodAction) {
+                throw new Error(`the action ${route.action} is invalid please check your routes`)
+            }
+            expressApp[`${route.method}`](route.getChainUri(), (req, res) => {
+                // automatic injection here
+                methodAction(req, res, ...Object.values(req.params))
+            });
         });
     }
 
     start() {
-
+        this.expressApp = this.expressApp || express()
+        this.appendRoutersToExpress(this.expressApp);
+        this.expressApp.listen(this.runningPort)
     }
 }
 
