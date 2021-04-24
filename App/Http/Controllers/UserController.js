@@ -3,7 +3,7 @@ class UserController {
     index() {
 
     }
-
+    
     show(req, res, user) {
         console.log(require.main.require('./routes/web'))
         res.send(user);
@@ -15,6 +15,10 @@ class UserController {
 
     update() {
 
+    }
+
+    destroy(){
+        
     }
 
 }

@@ -88,7 +88,7 @@ class ResourceRoute {
         const uri = methodObject['uri'].replace(/uri/g, this.name).replace(/id/g, this.name)
 
         this.router
-            .addRoute(routeMethod, uri, [this.controller, controllerMethod])
+            .addRoute(routeMethod, uri, `${this.controller}@${controllerMethod}`)
             .name(routeName)
             .middleware(this.middlewares);
     }

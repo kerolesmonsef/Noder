@@ -90,8 +90,9 @@ class Route {
             return new controllerClass()[method] || throwException(`The Method :"${method}" Is Not Found in Controller : "${controller}"`)
         }
 
+        console.log(this.action)
+        throw new Error(`action must be string or array `);
         
-        throw new Error("action must be string or array side 2 like laravel");
     }
 }
 
