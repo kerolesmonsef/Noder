@@ -1,4 +1,4 @@
-class UserController {
+class BookController {
 
     index() {
         res.send('index');
@@ -23,4 +23,4 @@ class UserController {
 
 }
 
-module.exports = UserController;
+module.exports = BookController;

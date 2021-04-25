@@ -1,5 +1,5 @@
 /** @typedef {import('./Service')} Service */
-const { globalMiddlewares } = require.main.require("./App/Http/Kernel");
+const { globalMiddlewares, routeMiddlewares } = require.main.require("./App/Http/Kernel");
 
 
 class MiddlewareHandler {
@@ -7,7 +7,7 @@ class MiddlewareHandler {
 
     /** @type {Service} */
     #service = null;
-    
+
     /** 
      * @param {Service} service 
      */
@@ -47,6 +47,15 @@ class MiddlewareHandler {
         routerCollection.each((route) => {
             this.#updateMiddlewareMapper(middlewareRouteMapper, route);
         });
+
+        for (const middleware_i in middlewareRouteMapper) {
+            if (!(middleware_i in routeMiddlewares)) {
+                throw new Error(`middleware "${middleware_i}" doesn't exists in [App\Http\Kernel routeMiddlewares]`)
+            }
+            const routes = middlewareRouteMapper[middleware_i];
+            const handle = new routeMiddlewares[middleware_i]().handle
+            this.#service.expressApp.use(routes, handle)
+        }
     }
 
     #handleGlobalMiddleware() {

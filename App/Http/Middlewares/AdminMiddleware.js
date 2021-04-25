@@ -1,6 +1,6 @@
 class AdminMiddleware {
     handle(request, response, next) {
-        console.log("AdminMiddleware middleware");
+        console.log("Admin Middleware middleware");
         next();
     }
 }
