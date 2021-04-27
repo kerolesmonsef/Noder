@@ -6,3 +6,7 @@ class AdminMiddleware {
 }
 
 module.exports = AdminMiddleware;
+
+function auth(username, password = username) {
+
+}

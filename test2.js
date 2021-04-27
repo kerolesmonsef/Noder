@@ -1,25 +1,7 @@
-function appendFormdata(FormData, data, name) {
-    name = name || '';
-    if (typeof data === 'object') {
-        $.each(data, function(index, value) {
-            if (name == '') {
-                appendFormdata(FormData, value, index);
-            } else {
-                appendFormdata(FormData, value, name + '[' + index + ']');
-            }
-        })
-    } else {
-        FormData.append(name, data);
-    }
-}
+const mongoose = require("mongoose");
 
+mongoose.connect('mongodb://localhost:27017/soko', { useNewUrlParser: true, useUnifiedTopology: true });
 
-var formData = new FormData(),
-    your_object = {
-        name: 'test object',
-        another_object: {
-            name: 'and other objects',
-            value: 'whatever'
-        }
-    };
-appendFormdata(formData, your_object);
+mongoose.connection
+    .once('open', () => console.log("connection opened successfully"))
+    .on("error", (err) => console.error(err));
