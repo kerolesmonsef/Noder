@@ -71,6 +71,7 @@ class MiddlewareHandler {
         filteredGlobalMiddlewares.forEach((middleware) => {
             const handle = new globalMiddlewares[middleware]().handle
             this.#service.expressApp.use(handle)
+            console.log(this.#service);
         });
 
     }

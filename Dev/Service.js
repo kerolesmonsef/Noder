@@ -20,6 +20,8 @@ class Service {
 
     expressApp = express()
 
+    #listenCallback = () => { }
+
     /**
      * 
      * @param {Array<Router>} routers 
@@ -85,6 +87,11 @@ class Service {
         return this;
     }
 
+    listenCallback(callback) {
+        this.#listenCallback = callback;
+        return this;
+    }
+
 
     start() {
 
@@ -95,7 +102,7 @@ class Service {
          */
         this.middlewareHandler.handle();
 
-        this.expressApp.listen(this.runningPort)
+        this.expressApp.listen(this.runningPort, this.#listenCallback)
     }
 }
 

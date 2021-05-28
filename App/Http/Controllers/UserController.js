@@ -5,7 +5,12 @@ class UserController {
     }
 
     show(req, res) {
-        res.send('show');
+        setTimeout(() => {
+            res.send({
+                name: "keroles"
+            });
+        }, 2000)
+
     }
 
     edit(req, res) {
