@@ -4,8 +4,7 @@ class CorsMiddleware {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-        // next();
-        console.log("a7a");
+        next();
     }
 }
 

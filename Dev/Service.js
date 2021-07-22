@@ -6,7 +6,8 @@ const router = require("../routes/api");
 const RouterCollection = require("./Router/RouterCollection");
 const express = require('express');
 const MiddlewareHandler = require('./MiddlewareHandler');
-
+const Response = require('./Request/Response');
+const {request} = require('./Request/Request');
 
 class Service {
 
@@ -18,23 +19,29 @@ class Service {
     /** @type {MiddlewareHandler} */
     middlewareHandler = null;
 
-    expressApp = express()
 
-    #listenCallback = () => { }
+    #listenCallback = () => {
+    }
 
     /**
-     * 
-     * @param {Array<Router>} routers 
+     *
+     * @param {Array<Router>} routers
      */
     constructor(routers = []) {
+        this.expressApp = express();
+
+        // this.expressApp.use( (req,res,next) =>{
+        //    console.log(next); 
+        // });
+
         routers = Array.isArray(routers) ? routers : Array.from(arguments);
         this.addRouter(routers);
         this.middlewareHandler = new MiddlewareHandler(this)
     }
 
     /**
-     * 
-     * @param {Array<Router>|Router} router 
+     *
+     * @param {Array<Router>|Router} router
      */
     addRouter(router) {
         router = Array.isArray(router) ? router : [router];
@@ -54,7 +61,7 @@ class Service {
     }
 
     /**
-     * 
+     *
      * @returns {RouterCollection}
      */
     collectRoutes() {
@@ -76,7 +83,12 @@ class Service {
             }
             this.expressApp[`${route.method}`](route.getChainUri(), (req, res) => {
                 // automatic injection here
-                methodAction(req, res, ...Object.values(req.params))
+
+                methodAction.call(this.expressApp, {
+                    res: new Response(res),
+                    req: request(req),
+                    params: req.params,
+                })
             });
         });
     }
@@ -95,12 +107,12 @@ class Service {
 
     start() {
 
-        this.#appendRoutersToExpress();
-
         /**
          * handle global middleware and route middleware
          */
         this.middlewareHandler.handle();
+
+        this.#appendRoutersToExpress();
 
         this.expressApp.listen(this.runningPort, this.#listenCallback)
     }

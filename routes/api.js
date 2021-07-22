@@ -4,7 +4,8 @@ const ResourceRoute = require("../Dev/Router/ResourceRoute");
 
 const router = new Router();
 
-router.get("/user", "UserController@show").middleware("auth").name("kero");
+router.get("/user", "UserController@show").middleware("auth").name("user.show");
+router.get("/user/:user/edit", "UserController@edit").middleware("auth").name("user.edit");
 
 router.group({ middleware: ['Admin'] }, (r) => {
     r.get('/admin', "AdminController@index").name("admin.index")

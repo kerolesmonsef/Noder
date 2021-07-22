@@ -1,22 +1,22 @@
 class {{controller}} {
 
-    index() {
+    index({req, res}) {
         res.send('index');
     }
 
-    show(req, res) {
+    show({req, res}) {
         res.send('show');
     }
 
-    edit(req, res) {
+    edit({req, res}) {
         res.send('edit');
     }
 
-    update(req, res) {
+    update({req, res}) {
         res.send('update');
     }
 
-    destroy(req, res) {
+    destroy({req, res}) {
         res.send('destroy');
 
     }
